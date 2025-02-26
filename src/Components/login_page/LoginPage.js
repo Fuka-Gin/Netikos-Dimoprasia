@@ -3,14 +3,14 @@ import './LoginPage.css';
 import { BiShow, BiHide } from "react-icons/bi";
 import imagePath from './auction-house-conceptual-background_1284-29710.avif';
 import { SiMaildotru } from "react-icons/si";
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const LoginPage = () => {
   const [passView, setView] = useState(false);
   const [email, setUsername] = useState(''); // Username input state
   const [password, setPassword] = useState(''); // Password input state
   // const [message, setMessage] = useState(''); // For displaying feedback messages
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
 
   const toggle = () => {
     setView(!passView);
@@ -24,12 +24,19 @@ const LoginPage = () => {
     setPassword(e.target.value);
   };
 
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    // Add your login logic here
+    // If login is successful, navigate to the dashboard page
+    navigate('/dashboard');
+  };
+
   return (
     <div>
       <div className='design'>
         <img src={imagePath}/>
       </div>
-      <form className='login-form'>
+      <form className='login-form' onSubmit={handleSubmit}>
         <div>
           <div className='label-box'>
             <label forName="umail">Email:</label>

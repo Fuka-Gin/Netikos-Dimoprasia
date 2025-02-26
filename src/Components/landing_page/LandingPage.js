@@ -23,7 +23,7 @@ const LandingPage = () => {
         // Clear the interval when the component unmounts
         return () => clearInterval(intervalId);
     }, []);
-    return(
+    return( 
         <div>
             <nav className="navbar-section">
                 <div className="brand">
