@@ -1,13 +1,67 @@
-.navbar-brand{
-    margin-left: 150px;
+.navbar-section{
+    background-color: white;
+    color: black;
+    height: 60px;
+    display: flex;
 }
 
-.d-flex{
-    margin-right: 750px;
+.navbar-section .brand{
+    margin: 10px 80px;
 }
 
-.sidebar{
-    width: 250px;
-    margin-top: 50px;
-    background-color: aqua;
+.navbar-section .links{
+    display: flex;
+    align-items: center;
+    margin: 10px;
+     
+}
+
+.links a{
+    text-decoration: none;
+    color: rgb(89, 89, 89);
+    margin: 0 20px;
+    border-radius: 20px;
+    width: auto;
+    height: 40px;
+    padding: 10px;
+}
+
+.links a:hover{
+    color: gray;
+    background-color: rgb(168, 222, 215);
+    border-radius: 20px;
+    width: auto;
+    height: 40px;
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+.navbar-section .search-form{
+    display: flex;
+    align-items: center;
+    margin-top: 15px;
+}
+
+.search-form .search-input{
+    border-radius: 20px;
+    border: green solid 2px;
+    padding: 10px;
+    color: black;
+    outline: none;
+}
+
+.search-form .search-button{
+    border-radius: 20px;
+    border: rgb(0, 128, 2) solid 2px;
+    padding: 5px;
+    color: black;
+    margin-left: -25px;
+    outline: none;
+    background-color: white;
+    width: 90px;
+}
+
+.search-form .search-button:hover{
+    background-color: green;
+    color: white;
 }

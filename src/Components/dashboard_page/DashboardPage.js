@@ -5,30 +5,30 @@ import { Link } from 'react-router-dom';
 const DashboardPage = () => {
     return(
         <div>
-            <nav class="navbar navbar-expand-lg bg-body-tertiary">
-                <div class="container-fluid">
-                    <h2 className='navbar-brand'>Netikos Dimoprasía</h2>
-                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                    </button>
-                    <form class="d-flex" role="search">
-                        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
-                        <button class="btn btn-outline-success" type="submit">Search</button>
-                    </form>
-                    <div class="nav-item">
-                        <Link to="/profile">My Profile</Link>
-                    </div>
+            <nav className="navbar-section">
+                <div className="brand">
+                    <h2>Netikos Dimoprasía</h2>
+                </div>
+                <div className="links" style={ {marginLeft: '180px'} }>
+                    <Link to="/dashboard" id="active">Dashboard</Link>
+                </div>
+                <div className="links">
+                    <Link to="/bidding">Bidding</Link>
+                </div>
+                <div className="links">
+                    <Link to="/listing">Listing</Link>
+                </div>
+                <form className="search-form">
+                    <input className='search-input' type='search' placeholder='Search' aria-label="Search" />
+                    <button class="search-button" type="submit" style={{marginLeft: '20px'}}>Search</button>
+                </form>
+                <div className="links">
+                    <Link to="/profile">My Profile</Link>
                 </div>
             </nav>
-            <div className="sidebar">
-                <Link to="/dashboard" className="active">Dashboard</Link> <br />
-                <Link to="/bidding">Bidding</Link><br />
-                <Link to="/listing">Listing</Link>
-            </div>
             <div className="body-container">
-
             </div>
-        </div>
+        </div> 
     );
 };
 

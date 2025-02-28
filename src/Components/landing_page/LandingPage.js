@@ -40,7 +40,7 @@ const LandingPage = () => {
                 </div>
             </nav>
             <div className="heading-section">
-                <h1>Welcome to Netikos Dimoprasía</h1>
+                <h1>Welcome to Netikos Dimoprasía</h1> 
                 <Link to='/login' id="login-button" className="btn btn-primary btn-lg">Login</Link>
                 <div className="swiper brand-slider7" id="brandSlider4">
                     <marquee className="marq" direction="left">
