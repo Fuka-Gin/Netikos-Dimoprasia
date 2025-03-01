@@ -3,14 +3,14 @@ const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const cors = require("cors");
-const bodyParser = require("body-parser");
 require("dotenv").config();
 
 const app = express();
 const PORT = 5000;
 
 app.use(cors());
-app.use(express.json()); 
+app.use(express.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
 // MongoDB Connection
 mongoose.connect('mongodb://localhost:27017/NetikosDimopras', {
