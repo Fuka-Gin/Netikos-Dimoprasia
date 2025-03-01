@@ -7,26 +7,23 @@ import { Link, useNavigate } from 'react-router-dom';
 import imagePath from './auction-house-conceptual-background_1284-29710.avif';
 
 const SignupPage = () => {
-  const [passView, setView] = useState(false); //Used to see password
+  const [username, setUsername] = useState(''); //Contains username value
   const [password, setPass] = useState(''); //Contains password value for checking
   const [confirmPass, setConfPass] = useState(''); //Contains confirm password value for checking
-  const [match, setMatch] = useState(true); //Used to check password is correctly being entered
   const [phone, setPho] = useState(''); //Contains phone no value for checking
+  const [email, setEmail] = useState(''); //Contains email value for checking
+
+  const [passView, setView] = useState(false); //Used to see password
+  const [match, setMatch] = useState(true); //Used to check password is correctly being entered
   const [Phoval, setPhoVal] = useState(true); //Used to check for valid mobile no
   //const [phoneTouch, setPhoTouch] = useState(false); //Used to check field is entered or not
-  const [email, setEmail] = useState(''); //Contains email value for checking
   const [mailVal, setmail] = useState(true); // Used to check 
   const [emailTouch, setEmailTouch] = useState(false); // Track if the email input has been touched
-  const [username, setUsername] = useState(''); 
   const [message, setMessage] = useState(''); 
   const navigate = useNavigate(); //Used to navigate between different page
 
   const toggle = () => {
     setView(!passView);
-  };
-
-  const handlePass = (e) => {
-    setPass(e.target.value);
   };
 
   const handleConfirmPass = (e) => {
@@ -44,10 +41,6 @@ const SignupPage = () => {
   const PhoneBlur = () => {
     //setPhoTouch(true);
     setPhoVal(phone.length === 10)
-  };
-
-  const handleEmail = (e) => {
-    setEmail(e.target.value);
   };
 
   const EmailBlur = () => {
@@ -75,6 +68,37 @@ const SignupPage = () => {
         setMessage('Please enter a valid email address');
         return;
     }
+
+    const userData = {
+      username: username,
+      email: email,
+      phone: phone,
+      password: password
+    }
+    console.log("Sending data:", userData);
+
+    try {
+      const response = await fetch("/signup", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(userData)
+      });
+
+      const data = await response.json();
+      if (response.ok) {
+        setMessage("Signup successful!");
+        localStorage.setItem("token", data.token); // Store token for authentication
+        navigate("/dashboard"); // Redirect to dashboard after signup
+      } else {
+          console.error("Signup error:", data);
+          throw new Error(data.message || "Signup failed");
+      }
+    } catch (error) {
+      console.error("Error:", error.message);
+      setMessage("Something went wrong. Please try again.");
+    }
   };
 
 
@@ -86,22 +110,22 @@ const SignupPage = () => {
       <form className='signup-form' onSubmit={handleSignup}>
         <div>
           <div className='label-box'>
-            <label forName="uname">Name:</label>
+            <label htmlFor="username">Name:</label>
           </div>
           <div className="input-box">
-            <input type="text" id="uname" name="uname" placeholder="Enter your name" onChange={(e) => setUsername(e.target.value)} 
-             required />
+            <input type="text" name="username" value={username} placeholder="Enter your name" 
+            onChange={(e) => setUsername(e.target.value)} required />
             <span><FaUser className='icon'/></span>
           </div>
         </div>
 
         <div>
           <div className='label-box'>
-            <label forName="umail">Email:</label>
+            <label htmlFor="email">Email:</label>
           </div>
           <div className={`input-box ${mailVal ? '' : 'invalid'}`}>
-            <input type="text" id="umail" name="umail" placeholder="Enter your mail id" value={email} 
-             onChange={handleEmail} onBlur={EmailBlur} required />
+            <input type="text" name="email" placeholder="Enter your mail id" value={email} 
+             onChange={(e) => setEmail(e.target.value)} onBlur={EmailBlur} required />
             <span><SiMaildotru className='icon'/></span>
             { emailTouch && !mailVal && <p className='error-message'>Please enter a valid email address</p>}
           </div>
@@ -109,10 +133,10 @@ const SignupPage = () => {
         
         <div>
           <div className='label-box'>
-            <label forName="mobile-no">Moblie No:</label>
+            <label htmlFor="phone">Moblie No:</label>
           </div>
           <div className="input-box">
-            <input type="text" id="mobile-no" name="mobile-no" placeholder="Enter your mobile no" value={phone} 
+            <input type="text" name="phone" placeholder="Enter your mobile no" value={phone} 
              onChange={handlePhone} onBlur={PhoneBlur}/>
             <span><FaMobile className='icon'/></span>
             { !Phoval && (<p className='error-message'>Phone number must be exactly 10 digits.</p>)}
@@ -121,28 +145,27 @@ const SignupPage = () => {
 
         <div>
           <div className='label-box'>
-            <label forName="password">Password:</label>
+            <label htmlFor="password">Password:</label>
           </div>
           <div className="input-box">
-            <input type={passView ? 'text' : 'password'} id="password" name="password" placeholder="Enter your password" 
-              value={password} onChange={handlePass}
-              required
-            />
+            <input type={passView ? 'text' : 'password'} name="password" placeholder="Enter your password" 
+              value={password} onChange={(e) => setPass(e.target.value)} required />
             <span onClick={toggle}>{passView ? <BiShow className='icon' /> : <BiHide className='icon' />}</span>
           </div>
         </div>
         
         <div>
           <div className='label-box'>
-            <label forName="confirm-password">Confirm Password:</label>
+            <label htmlFor="confirmPass">Confirm Password:</label>
           </div>
           <div className="input-box">
-            <input type={passView ? 'text' : 'password'} id="confirm-password" name="confirm-password" 
+            <input type={passView ? 'text' : 'password'} name="confirmPass" 
              placeholder="Confirm your password" value={confirmPass} onChange={handleConfirmPass} required />
             <span onClick={toggle}>{passView ? <BiShow className='icon' /> : <BiHide className='icon' />}</span>
             {!match && <p className='error-message'>Passwords do not match</p>}
           </div>
         </div>
+
         <input type="submit" id="button" value="Submit"/>
         <div className='register-link'>
           <p>Already have an account? <Link to='/login'>Login</Link></p>
