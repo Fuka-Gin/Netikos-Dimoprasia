@@ -24,11 +24,30 @@ const LoginPage = () => {
     setPassword(e.target.value);
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // Add your login logic here
-    // If login is successful, navigate to the dashboard page
-    navigate('/dashboard');
+  const handleSubmit = async (e) => {
+    e.preventDefault();    
+    try {
+        const response = await fetch("/login", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ email, password })
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+            localStorage.setItem("token", data.token); // Store token in localStorage
+            alert("Login successful!");
+            navigate('/dashboard');
+        } else {
+            alert(data.message); // Show error message
+        }
+    } catch (error) {
+        console.error("Login error:", error);
+        alert("Something went wrong. Please try again.");
+    }
   };
 
   return (

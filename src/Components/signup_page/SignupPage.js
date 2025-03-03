@@ -10,7 +10,7 @@ const SignupPage = () => {
   const [username, setUsername] = useState(''); //Contains username value
   const [password, setPass] = useState(''); //Contains password value for checking
   const [confirmPass, setConfPass] = useState(''); //Contains confirm password value for checking
-  const [phone, setPho] = useState(''); //Contains phone no value for checking
+  const [mobileNo, setPho] = useState(''); //Contains phone no value for checking
   const [email, setEmail] = useState(''); //Contains email value for checking
 
   const [passView, setView] = useState(false); //Used to see password
@@ -40,7 +40,7 @@ const SignupPage = () => {
 
   const PhoneBlur = () => {
     //setPhoTouch(true);
-    setPhoVal(phone.length === 10)
+    setPhoVal(mobileNo.length === 10)
   };
 
   const EmailBlur = () => {
@@ -72,7 +72,7 @@ const SignupPage = () => {
     const userData = {
       username: username,
       email: email,
-      phone: phone,
+      mobileNo: mobileNo,
       password: password
     }
     console.log("Sending data:", userData);
@@ -133,10 +133,10 @@ const SignupPage = () => {
         
         <div>
           <div className='label-box'>
-            <label htmlFor="phone">Moblie No:</label>
+            <label htmlFor="mobileNo">Moblie No:</label>
           </div>
           <div className="input-box">
-            <input type="text" name="phone" placeholder="Enter your mobile no" value={phone} 
+            <input type="text" name="mobileNo" placeholder="Enter your mobile no" value={mobileNo} 
              onChange={handlePhone} onBlur={PhoneBlur}/>
             <span><FaMobile className='icon'/></span>
             { !Phoval && (<p className='error-message'>Phone number must be exactly 10 digits.</p>)}
