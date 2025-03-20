@@ -1,57 +1,16 @@
 const express = require("express");
-const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-const cors = require("cors");
+const User = require("../models/User");
+const router = express.Router();
 require("dotenv").config();
 
-const formRoutes = require("./routes/formRoutes");
-const app = express();
-const PORT = 5000;
-
-app.use(cors());
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-
-app.use("/api", formRoutes);
-
-mongoose.connect(process.env.MONGO_URI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true
-}).then(() => console.log("Connected to MongoDB"))
-  .catch(err => console.error("MongoDB connection error:", err));
-
-  mongoose.connection.once("open", async () => {
-    const collections = await mongoose.connection.db.listCollections().toArray();
-    console.log("Collections:", collections.map(col => col.name)); // Should list User_Details
-});
-
-//Database Schema
-const userSchema = new mongoose.Schema({
-  username: { type: String },
-  email: { type: String, unique: true },
-  mobileNo: { type: String, unique: true },
-  password: { type: String },
-  isActive: { type: Boolean, default: true },
-  aadhaarNo: { type: Number },
-  panCard: { type: String },
-  address1: { type: String },
-  address2: { type: String },
-  address3: { type: String },
-  pincode: { type: Number },
-  city: { type: String },
-  state: { type: String },
-  country: { type: String },
-});
-
-const User_Details = mongoose.model("User_Details", userSchema);
-
-app.post("/api/signup", async (req, res) => {
+router.post("/signup", async (req, res) => {
     try {
         const { username, email, mobileNo, password } = req.body;
 
         // Check if user already exists
-        const existingUser = await User_Details.findOne({ email });
+        const existingUser = await User.findOne({ email });
         if (existingUser) return res.status(400).json({ message: "User already exists" });
 
         // Hash password
@@ -59,7 +18,7 @@ app.post("/api/signup", async (req, res) => {
         const hashedPassword = await bcrypt.hash(password, salt);
 
         // Create user
-        const newUser = new User_Details({ username, email, mobileNo, password: hashedPassword });
+        const newUser = new User({ username, email, mobileNo, password: hashedPassword });
         await newUser.save();
 
         // Generate JWT Token
@@ -72,19 +31,19 @@ app.post("/api/signup", async (req, res) => {
     }
 });
 
-app.post("/api/login", async (req, res) => {
+router.post("/login", async (req, res) => {
     try {
         const { email, password } = req.body;
 
         // Check if user exists
-        const user = await User_Details.findOne({ email });
+        const user = await User.findOne({ email });
         if (!user) return res.status(400).json({ message: "Invalid email or password" });
 
         // Compare entered password with stored hash
         const isMatch = await bcrypt.compare(password, user.password);
         if (!isMatch) return res.status(400).json({ message: "Invalid email or password" });
 
-        await User_Details.updateOne({ email }, { $set: { isActive: true } });
+        await User.updateOne({ email }, { $set: { isActive: true } });
         // Generate JWT Token
         const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, { expiresIn: "1h" });
 
@@ -95,11 +54,11 @@ app.post("/api/login", async (req, res) => {
     }
 });
 
-app.get('/api/user/:userId', async (req, res) => {
+router.get('/api/user/:userId', async (req, res) => {
     try {
         const { userId } = req.params;
 
-        const user = await User_Details.findById( userId ).select("-password"); // Exclude password from response
+        const user = await User.findById( userId ).select("-password"); // Exclude password from response
         if (!user) return res.status(404).json({ message: "User not found" });
  
         res.status(200).json(user);
@@ -109,12 +68,12 @@ app.get('/api/user/:userId', async (req, res) => {
     }
 });
 
-app.put("/api/user/:userId", async (req, res) => {
+router.put("/api/user/:userId", async (req, res) => {
     try {
         const { userId } = req.params;
         const updatedData = req.body;
 
-        const user = await User_Details.findByIdAndUpdate(userId, updatedData, { new: true});
+        const user = await User.findByIdAndUpdate(userId, updatedData, { new: true});
         if(!user){
             return res.status(404).json({ message: "User not found" });
         }
@@ -126,7 +85,7 @@ app.put("/api/user/:userId", async (req, res) => {
     }
 });
 
-app.post("/api/logout", async (req, res) => {
+router.post("/logout", async (req, res) => {
     try {
         const { userId } = req.body;
 
@@ -135,11 +94,11 @@ app.post("/api/logout", async (req, res) => {
         }
 
         // Check if user exists
-        const user = await User_Details.findById(userId);
+        const user = await User.findById(userId);
         if (!user) return res.status(400).json({ message: "User not found" });
 
         // Update isActive status to false
-        await User_Details.updateOne({ _id: userId }, { $set: { isActive: false } });
+        await User.updateOne({ _id: userId }, { $set: { isActive: false } });
 
         res.status(200).json({ message: "User logged out successfully" });
     } catch (error) {
@@ -148,6 +107,4 @@ app.post("/api/logout", async (req, res) => {
     }
 });
 
-app.listen(PORT, () => {
-    console.log(`Server started on port http://localhost:${PORT}`);
-});
+module.exports = router;
