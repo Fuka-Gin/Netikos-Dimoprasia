@@ -78,7 +78,7 @@ const SignupPage = () => {
     console.log("Sending data:", userData);
 
     try {
-      const response = await fetch("/signup", {
+      const response = await fetch("http://localhost:5000/api/signup", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
@@ -90,7 +90,7 @@ const SignupPage = () => {
       if (response.ok) {
         setMessage("Signup successful!");
         localStorage.setItem("token", data.token); // Store token for authentication
-        navigate("/dashboard"); // Redirect to dashboard after signup
+        navigate("/login"); // Redirect to dashboard after signup
       } else {
           console.error("Signup error:", data);
           throw new Error(data.message || "Signup failed");

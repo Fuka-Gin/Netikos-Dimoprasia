@@ -20,7 +20,7 @@ const ListingPage = () => {
                     <Link to="/listing" id="active">Listing</Link>
                 </div>
                 <div className="links">
-                    <Link to="/profile">My Profile</Link>
+                    <Link to="/profile">My Profile</Link> 
                 </div>
             </nav>
             <div>
@@ -50,40 +50,6 @@ const ListingPage = () => {
                         </div>
                     </div>
                 </div>
-                {/* <div className="listing-container">
-                    <div className="listing-header">
-                        <h2>Listing</h2>
-                    </div>
-                    <div className="listing-body">
-                        <div className="listing-form">
-                            <form>
-                                <div className="form-group">
-                                    <label>Product Name:</label>
-                                    <input type="text" name="product-name" placeholder="Enter product name" />
-                                </div>
-                                <div className="form-group">
-                                    <label>Product Description:</label>
-                                    <textarea name="product-description" placeholder="Enter product description" />
-                                </div>
-                                <div className="form-group">
-                                    <label>Product Price:</label>
-                                    <input type="text" name="product-price" placeholder="Enter product price" />
-                                </div>
-                                <div className="form-group">
-                                    <label>Product Quantity:</label>
-                                    <input type="text" name="product-quantity" placeholder="Enter product quantity" />
-                                </div>
-                                <div className="form-group">
-                                    <label>Product Image:</label>
-                                    <input type="file" name="product-image" />
-                                </div>
-                                <div className="form-group">
-                                    <button type="submit">Submit</button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div> */}
             </div>
         </div> 
     );

@@ -35,10 +35,10 @@ body{
   }
 
 .login-form .input-box{
-    width: 100%;
+    width: 90%;
     position: relative;
     height: 50px;
-    margin: 5px 5px 30px 7px;
+    margin: 5px 5px 30px -14px;
     padding: 5px;
 }
 

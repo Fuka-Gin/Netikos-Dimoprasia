@@ -1,10 +1,63 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import './ProfilePage.css';
 import { Link } from 'react-router-dom';
 import { FaUser, FaMobile } from 'react-icons/fa';
 import { SiMaildotru } from "react-icons/si"; 
+import axios from 'axios';
 
 const ProfilePage = () => {
+    const [userData, setUserData] = useState({
+        username: "",
+        email: "",
+        mobileNo: "",
+        aadhaarNo: "",
+        panCard: "",
+        address1: "",
+        address2: "",
+        address3: "",
+        pincode: "",
+        district: "",
+        state: "",
+        country: ""
+    });
+
+    const [isEditing, setIsEditing] = useState(false);
+    
+    useEffect(() => {
+        const fetchUserData = async () => {
+            try {
+                const userId = localStorage.getItem('userId');
+                if (!userId){
+                    console.log("User ID not found in localStrorage");
+                    return;
+                }
+                
+                const response = await axios.get(`/api/user/${userId}`);
+                setUserData(response.data);
+            } catch (error) {
+                console.error('Error fetching user data:', error);
+            }
+        };
+        fetchUserData();
+    }, []);
+
+    // Handle input change
+    const handleChange = (e) => {
+        setUserData({ ...userData, [e.target.name]: e.target.value });
+    };
+
+    // Handle update
+    const handleUpdate = async () => {
+        try{
+            const userId = localStorage.getItem('userId');
+            await axios.put(`api/user/${userId}`, userData);
+            setIsEditing(false);
+            alert('Profile updated successfully!');
+        } catch (error) {
+            console.error('Error updating profile:', error);
+        }
+    };
+
     return(
         <div>
             <nav className="navbar-section">
@@ -28,130 +81,133 @@ const ProfilePage = () => {
             <div className="body-container">
                 <form className='profile-form'>
                     <h1 style={{padding: '20px'}}>Personal Information</h1>
+                    {!isEditing ? (
+                        <button type="button" className='edit-button' onClick={() => setIsEditing(true)}>Edit</button>
+                    ) : (
+                        <button type="button" className='update-button' onClick={handleUpdate}>Update</button>
+                    )}
+                    
                     <div className='personal-info'>
                         <div style={{marginLeft: '20px'}}>
                             <div className='label-box'>
-                                <label forName="uname">Name:</label>
+                                <label htmlFor="username">Name:</label>
                             </div>
                             <div className="input-box">
-                                <input type="text" id="uname" name="uname" placeholder="Enter your name" disabled/> {/* onChange={(e) => setUsername(e.target.value)} */}
+                                <input type="text" name="username" value={userData.username} onChange={handleChange} disabled={!isEditing} />
                                 <span><FaUser className='icon'/></span>                           
                             </div>
                         </div>
                     
                         <div style={{marginLeft: '200px'}}>
                             <div className='label-box'>
-                                <label forName="umail">Email:</label>
+                                <label htmlFor="email">Email:</label>
                             </div>
-                            <div className="input-box"> {/*{`input-box ${mailVal ? '' : 'invalid'}`} */}
-                                <input type="text" id="umail" name="umail" placeholder="Enter your mail id" disabled/>
+                            <div className="input-box">
+                                <input type="text" name="email" value={userData.email} onChange={handleChange} disabled/>
                                 <span><SiMaildotru className='icon'/></span>
-                                {/*value={email} onChange={handleEmail} onBlur={EmailBlur} required*/}
-                                {/* { emailTouch && !mailVal && <p className='error-message'>Please enter a valid email address</p>} */}
                             </div>
                         </div>
                     
                         <div style={{marginLeft: '20px'}}>
                             <div className='label-box'>
-                                <label forName="uname">Mobile No:</label>
+                                <label htmlFor="mobileNo">Mobile No:</label>
                             </div>
                             <div className="input-box">
-                                <input type="text" id="uname" name="uname" placeholder="Enter your name" disabled/> {/* onChange={(e) => setUsername(e.target.value)} */}
+                                <input type="text" name="mobileNo" value={userData.mobileNo} onChange={handleChange} disabled={!isEditing}/>
                                 <span><FaMobile className='icon'/></span>                           
                             </div>
                         </div>
                         
                         <div style={{marginLeft: '200px'}}>
                             <div className='label-box'>
-                                <label forName="uaadhaar">Aadhaar No:</label>
+                                <label htmlFor="aadhaarNo">Aadhaar No:</label>
                             </div>
                             <div className="input-box">
-                                <input type="text" id="uaadhaar" name="uaadhaar" placeholder="Enter your Aadhaar No" /> {/* onChange={(e) => setUsername(e.target.value)} */}
+                                <input type="text" name="aadhaarNo" value={userData.aadhaarNo} onChange={handleChange} disabled={!isEditing} /> 
                                 <span><FaUser className='icon'/></span>                           
                             </div>
                         </div>
                         
                         <div style={{marginLeft: '20px'}}>
                             <div className='label-box'>
-                                <label forName="upancard">PAN Card No:</label>
+                                <label htmlFor="panCard">PAN Card No:</label>
                             </div>
                             <div className="input-box">
-                                <input type="text" id="upancard" name="upancard" placeholder="Enter your PAN Card No" /> {/* onChange={(e) => setUsername(e.target.value)} */}
-                                <span><FaUser className='icon'/></span>                           
-                            </div>
-                        </div>
-
-                        <div style={{marginLeft: '200px'}}>
-                            <div className='label-box'>
-                                <label forName="address1">Flat/House No & Name:</label>
-                            </div>
-                            <div className="input-box">
-                                <input type="text" id="address1" name="address1" placeholder="Enter your 1st line of address" /> {/* onChange={(e) => setUsername(e.target.value)} */}
-                                <span><FaMobile className='icon'/></span>                           
-                            </div>
-                        </div>
-                        
-                        <div style={{marginLeft: '20px'}}>
-                            <div className='label-box'>
-                                <label forName="address2">Street/Lane:</label>
-                            </div>
-                            <div className="input-box">
-                                <input type="text" id="address2" name="address2" placeholder="Enter your 2nd line of address" /> {/* onChange={(e) => setUsername(e.target.value)} */}
+                                <input type="text" name="panCard" value={userData.panCard} disabled={!isEditing} onChange={handleChange} /> 
                                 <span><FaUser className='icon'/></span>                           
                             </div>
                         </div>
 
                         <div style={{marginLeft: '200px'}}>
                             <div className='label-box'>
-                                <label forName="address3">Address Line 3:</label>
+                                <label htmlFor="address1">Flat/House No & Name:</label>
                             </div>
                             <div className="input-box">
-                                <input type="text" id="address3" name="address3" placeholder="Enter your 3rd line of address" /> {/* onChange={(e) => setUsername(e.target.value)} */}
+                                <input type="text" name="address1" value={userData.address1} disabled={!isEditing} onChange={handleChange} /> 
                                 <span><FaMobile className='icon'/></span>                           
                             </div>
                         </div>
                         
                         <div style={{marginLeft: '20px'}}>
                             <div className='label-box'>
-                                <label forName="pincode">Pincode:</label>
+                                <label htmlFor="address2">Street/Lane:</label>
                             </div>
                             <div className="input-box">
-                                <input type="text" id="pincode" name="pincode" placeholder="Enter your pincode" /> {/* onChange={(e) => setUsername(e.target.value)} */}
-                                <span><FaUser className='icon'/></span>
+                                <input type="text" name="address2" value={userData.address2} disabled={!isEditing} onChange={handleChange} /> 
+                                <span><FaUser className='icon'/></span>                           
                             </div>
                         </div>
-                        
+
                         <div style={{marginLeft: '200px'}}>
                             <div className='label-box'>
-                                <label forName="district">District:</label>
+                                <label htmlFor="address3">Address Line 3:</label>
                             </div>
                             <div className="input-box">
-                                <input type="text" id="district" name="district" placeholder="Which district you are from ?" /> {/* onChange={(e) => setUsername(e.target.value)} */}
+                                <input type="text" name="address3" value={userData.address3} disabled={!isEditing} onChange={handleChange} /> 
                                 <span><FaMobile className='icon'/></span>                           
                             </div>
                         </div>
                         
                         <div style={{marginLeft: '20px'}}>
                             <div className='label-box'>
-                                <label forName="state">State:</label>
+                                <label htmlFor="pincode">Pincode:</label>
                             </div>
                             <div className="input-box">
-                                <input type="text" id="state" name="state" placeholder="Which state you are from ?" /> {/* onChange={(e) => setUsername(e.target.value)} */}
+                                <input type="text" name="pincode" value={userData.pincode} disabled={!isEditing} onChange={handleChange} /> 
                                 <span><FaUser className='icon'/></span>
                             </div>
                         </div>
                         
                         <div style={{marginLeft: '200px'}}>
                             <div className='label-box'>
-                                <label forName="country">Country:</label>
+                                <label htmlFor="district">District:</label>
                             </div>
                             <div className="input-box">
-                                <input type="text" id="country" name="country" placeholder="Which country you are ?" /> {/* onChange={(e) => setUsername(e.target.value)} */}
+                                <input type="text" name="district" value={userData.district} disabled={!isEditing} onChange={handleChange} /> 
+                                <span><FaMobile className='icon'/></span>                           
+                            </div>
+                        </div>
+                        
+                        <div style={{marginLeft: '20px'}}>
+                            <div className='label-box'>
+                                <label htmlFor="state">State:</label>
+                            </div>
+                            <div className="input-box">
+                                <input type="text" name="state" value={userData.state} disabled={!isEditing} onChange={handleChange} /> 
+                                <span><FaUser className='icon'/></span>
+                            </div>
+                        </div>
+                        
+                        <div style={{marginLeft: '200px'}}>
+                            <div className='label-box'>
+                                <label htmlFor="country">Country:</label>
+                            </div>
+                            <div className="input-box">
+                                <input type="text" name="country" value={userData.country} disabled={!isEditing} onChange={handleChange} /> 
                                 <span><FaUser className='icon'/></span>
                             </div>
                         </div>
                     </div>
-                    <input type="submit" value="Update" className='update-button' style={{marginLeft: '20px'}}/>
                 </form>
             </div>
         </div> 

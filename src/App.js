@@ -21,6 +21,7 @@ function App() {
       <Route path= "/bidding" element={<BiddingPage />} />
       <Route path= "/listing" element={<ListingPage />} />
       <Route path= "/listing/add" element={<AddItem />} />
+      <Route path="/logout" element={<LandingPage />} />
     </Routes>
   );
 }

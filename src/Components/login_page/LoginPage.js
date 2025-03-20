@@ -27,7 +27,7 @@ const LoginPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();    
     try {
-        const response = await fetch("/login", {
+        const response = await fetch("http://localhost:5000/api/login", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -39,6 +39,9 @@ const LoginPage = () => {
 
         if (response.ok) {
             localStorage.setItem("token", data.token); // Store token in localStorage
+            localStorage.setItem("userId", data.userId); // Store userId in localStorage
+            localStorage.setItem("userEmail", email);
+            localStorage.setItem("username", data.username);
             alert("Login successful!");
             navigate('/dashboard');
         } else {
@@ -58,7 +61,7 @@ const LoginPage = () => {
       <form className='login-form' onSubmit={handleSubmit}>
         <div>
           <div className='label-box'>
-            <label forName="umail">Email:</label>
+            <label htmlFor="umail">Email:</label>
           </div>
           <div className="input-box">
             <input type="text" id="umail" name="umail" placeholder="Enter your mail id" onChange={handleMailId} required />
@@ -68,7 +71,7 @@ const LoginPage = () => {
             
         <div>
           <div className='label-box'>
-            <label forName="password">Password:</label>
+            <label htmlFor="password">Password:</label>
           </div>
           <div className="input-box">
             <input type={passView ? 'text' : 'password'} 
