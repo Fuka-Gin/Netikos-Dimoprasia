@@ -1,0 +1,90 @@
+.navbar-section{
+    background-color: white;
+    color: black;
+    height: 60px;
+    display: flex;
+}
+
+.navbar-section .brand{
+    margin: 10px 80px;
+}
+
+.navbar-section .links{
+    display: flex;
+    align-items: center;
+    margin: 10px;
+     
+}
+
+.links a{
+    text-decoration: none;
+    color: rgb(89, 89, 89);
+    margin: 0 20px;
+    border-radius: 20px;
+    width: auto;
+    height: 40px;
+    padding: 10px;
+}
+
+.links a:hover{
+    color: gray;
+    background-color: rgb(168, 222, 215);
+    border-radius: 20px;
+    width: auto;
+    height: 40px;
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+#active{
+    color: black;
+    font-size: larger;
+    text-decoration: wavy;
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.listing-content{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin: 20px;
+    background-color: violet;
+}
+
+.listing-content .add-item{
+    width: 100px;
+    height: 50px;
+    position: relative;
+    left: 800px;
+    margin-top: 20px;
+    font-size: 20px;
+    border-radius: 20px;
+    color: green;
+    border: green solid 2px;
+    background-color: white;
+    text-decoration: none;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.add-item:hover{
+    background-color: green;
+    color: white;
+}
+
+.listing-item{
+    background-color: white;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    padding: 20px;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}

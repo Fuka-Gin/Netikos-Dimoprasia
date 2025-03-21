@@ -1,0 +1,151 @@
+.navbar-section{
+    background-color: white;
+    color: black;
+    height: 60px;
+    display: flex;
+}
+
+.navbar-section .brand{
+    margin: 10px 80px;
+}
+
+.navbar-section .links{
+    display: flex;
+    align-items: center;
+    margin: 10px;
+     
+}
+
+.links a{
+    text-decoration: none;
+    color: rgb(89, 89, 89);
+    margin: 0 20px;
+    border-radius: 20px;
+    width: auto;
+    height: 40px;
+    padding: 10px;
+}
+
+.links a:hover{
+    color: gray;
+    background-color: rgb(168, 222, 215);
+    border-radius: 20px;
+    width: auto;
+    height: 40px;
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+#active{
+    color: black;
+    font-size: larger;
+    text-decoration: wavy;
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.search-form{
+    display: flex;
+    align-items: center;
+    margin-top: 55px;
+    justify-content: space-between;
+    margin-left: 200px;
+    margin-right: 100px;
+}
+
+.search-form .search-input{
+    border-radius: 20px;
+    border: green solid 2px;
+    padding: 5px 10px 5px 35px;
+    color: black;
+    outline: none;
+    width: 250px;
+}
+
+.sidebar-listing .sidebar{
+    width: 350px;
+    height: auto;
+    position: fixed;
+    top: 200px;
+    left: 55px;
+    padding: 20px;
+    border-radius: 30px;
+    box-shadow: 6px 7px 15px rgb(149, 156, 155);
+}
+
+.sidebar .category{
+    margin: 10px;
+}
+
+.category input[type="checkbox"]{
+    width: 20px; /*Desired width*/
+    height: 20px; /*Desired height*/
+    cursor: pointer;
+    margin-right: 10px;
+}
+
+.category label{
+    font-size: 20px;
+    font-family: Popins;
+    position: relative;
+    top: -4px;
+}
+
+.sidebar-listing .bidding-content{
+    display: flex;
+    flex-wrap: wrap;
+    margin-left: 440px;
+    margin-top: 45px;
+    margin-right: 20px;
+    background-color: violet;
+    padding: 20px;
+    border-radius: 30px;
+    box-shadow: 6px 7px 15px rgb(149, 156, 155);
+}
+
+.auction-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    text-align: center;
+    background-color: white;
+    box-shadow: 6px 7px 15px rgb(149, 156, 155);
+    padding: 10px;
+    margin: 10px;
+    border-radius: 20px;
+}
+
+img {
+    border-radius: 20px;
+    margin-bottom: 20px;
+}
+
+.item-description {
+    width: auto;
+}
+
+.item-description .text {
+    font-size: 20px;
+    font-family: Popins;
+}
+
+.bidding-button {
+    width: 150px;
+    padding: 5px;
+    background-color: white;
+    color: orange;
+    border: orange solid 2px;
+    border-radius: 20px;
+    margin-bottom: 5px;
+}
+
+.bidding-button:hover{
+    background-color: orange;
+    color: white;
+    border: white solid 2px;
+    border-radius: 20px;
+}
